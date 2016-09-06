@@ -1,0 +1,9 @@
+﻿
+PCのスペック
+
+CPUの種類：Intel Core i5-3337U
+実装メモリ(RAM)：4GB
+システムの種類：64ビットオペレーティングシステム、x64ベースプロセッサ
+OSのバージョン：Windows8.1 Pro
+HDDの容量：107GB
+Directバージョン：DirectX 11
