@@ -11,7 +11,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.Date;
 import java.util.Random; // ランダムで運勢を抽選するため
+import javax.servlet.RequestDispatcher;
+import org.camp.servlet.ResultData;
 
 /**
  *
@@ -40,6 +44,15 @@ public class FortuneTelling extends HttpServlet {
         //乱数取得
         Integer index = rand.nextInt(luckList.length);
     
+        // リクエストスコープへ結果を設定
+        ResultData data = new ResultData();
+        data.setD(new Date());
+        data.setLuck(luckList[index]);
+        request.setAttribute("DATA", data);
+        
+        RequestDispatcher rd = request.getRequestDispatcher(result);
+        rd.forward(request, response);
+        
         try {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
