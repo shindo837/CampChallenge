@@ -11,9 +11,9 @@
     public ArrayList getProfile(){     //getProfileメソッド
         ArrayList<String> mine = new ArrayList<String>();
 
-        mine.add("進藤友弥");
-        mine.add("1994年08月18日");
-        mine.add("趣味は料理です。");
+        mine.add("進藤友弥<br>");
+        mine.add("1994年08月18日<br>");
+        mine.add("趣味は料理です。<br>");
 
         return mine;
 }
@@ -27,6 +27,6 @@
                 out.println("<br>");
             }
             
-            out.println(x+"回目<br>"+mine.get(0)+"<br>"+mine.get(1)+"<br>"+mine.get(2)+"<br>");
+            out.println(x+"回目<br>"+mine.get(0)+mine.get(1)+mine.get(2));
         }
 %>
