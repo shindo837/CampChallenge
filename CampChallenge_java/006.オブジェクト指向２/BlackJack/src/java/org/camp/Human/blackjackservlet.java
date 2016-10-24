@@ -11,11 +11,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.annotation.WebServlet;
+import java.util.ArrayList;
+
+import org.camp.Human.Human;    //Humanクラスをimport
 
 /**
  *
  * @author tomoya
  */
+@WebServlet(name = "blackjackservlet", urlPatterns = {"/blackjackservlet"})
 public class blackjackservlet extends HttpServlet {
 
     /**
@@ -30,6 +35,33 @@ public class blackjackservlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        Dealer d = new Dealer();    //Humanクラスを継承したDealerクラスのインスタンス生成
+        User u = new User();    //Humanクラスを継承したUserクラスのインスタンス生成
+        
+        //インスタンスされたオブジェクトの利用
+        ArrayList<Integer> cards = d.Trump();
+        ArrayList<Integer> D_firstcards = d.deal();
+        ArrayList<Integer> D_hitcard = d.hit();
+        
+        ArrayList<Integer> D_setcard = d.setCard(/*D_firstcards, D_hitcard*/);
+/*
+        d.setCard(D_firstcards);
+        ArrayList<Integer> D_setcard = d.setCard(D_hitcard);    3枚のカード情報がある
+        */        
+                
+        ArrayList<Integer> D_Hand = d.finishHand();
+        System.out.println("check"+d.myCards);
+        Integer D_total = d.open();
+        ArrayList<Integer> U_firstcards = u.deal();
+        
+//        ArrayList<Integer> U_setcard = u.setCard(U_firstcards);
+
+        ArrayList<Integer> U_Hand = u.finishHand();
+        Integer U_total = u.open();
+        String result = u.Victory_or_Defeat();
+        
+        
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
@@ -38,9 +70,15 @@ public class blackjackservlet extends HttpServlet {
             out.println("<head>");
             out.println("<title>Servlet blackjackservlet</title>");            
             out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet blackjackservlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
+            out.println("<h1>トランプ："+cards+"</h1>");
+            out.println("<h1>ディーラーの最初の手札"+D_firstcards+"</h1>");
+            out.println("<h1>ディーラーの追加したカード："+D_hitcard+"</h1>");
+            out.println("<h1>ディーラーのカード："+D_setcard+"</h1>");
+            out.println("<h1>ユーザーの最初の手札"+U_firstcards+"</h1>");
+//            out.println("<h1>ユーザーのカード："+U_setcard+"</h1>");
+            out.println("<h1>ディーラー<br>"+"手札："+D_Hand+"<br>合計："+D_total+"点</h1>");
+            out.println("<h1>あなた<br>"+"手札："+U_Hand+"<br>合計："+U_total+"点</h1>");
+            out.println("<h1>"+result+"</h1>");
             out.println("</html>");
         } finally {
             out.close();
