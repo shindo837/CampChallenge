@@ -40,29 +40,57 @@ public class blackjackservlet extends HttpServlet {
         User u = new User();    //Humanクラスを継承したUserクラスのインスタンス生成
         
         //インスタンスされたオブジェクトの利用
-        ArrayList<Integer> cards = d.Trump();
+        //トランプ
+//        ArrayList<Integer> cards = d.Trump();
+
+        //ディーラー
         ArrayList<Integer> D_firstcards = d.deal();
         ArrayList<Integer> D_hitcard = d.hit();
-        
-        ArrayList<Integer> D_setcard = d.setCard(/*D_firstcards, D_hitcard*/);
-/*
+        System.out.println("check"+D_hitcard);
         d.setCard(D_firstcards);
-        ArrayList<Integer> D_setcard = d.setCard(D_hitcard);    3枚のカード情報がある
-        */        
-                
-        ArrayList<Integer> D_Hand = d.finishHand();
         System.out.println("check"+d.myCards);
-        Integer D_total = d.open();
-        ArrayList<Integer> U_firstcards = u.deal();
+        ArrayList<Integer> D_setcard = d.setCard(D_hitcard);    //3枚のカード情報がある
         
-//        ArrayList<Integer> U_setcard = u.setCard(U_firstcards);
+        while(d.checkSum(D_setcard) == true){
+            D_hitcard = d.hit();
+            D_setcard = d.setCard(D_hitcard);
+            System.out.println("check"+D_hitcard);
+        }
+        
+        d.checkSum(D_setcard);
+        System.out.println("check"+d.myCards);
+        ArrayList<Integer> D_Hand = d.finishHand(D_setcard, D_hitcard);
+        System.out.println("check"+d.myCards);
+        Integer D_total = d.open(D_Hand);
+        System.out.println("check"+d.myCards);
+        
+        //ユーザー
+        ArrayList<Integer> U_firstcards = u.deal();
+        ArrayList<Integer> U_hitcard = u.hit();
+        System.out.println("check"+U_hitcard);
+        u.setCard(U_firstcards);
+        System.out.println("check"+u.myCards);
+        ArrayList<Integer> U_setcard = u.setCard(U_hitcard);     //3枚のカード情報がある
+        
+        while(u.checkSum(U_setcard) == true){
+            U_hitcard = u.hit();
+            U_setcard = u.setCard(U_hitcard);
+            System.out.println("check"+U_hitcard);
+        }
+        
+        u.checkSum(U_setcard);
+        System.out.println("check"+u.myCards);
+        ArrayList<Integer> U_Hand = u.finishHand(U_setcard, U_hitcard);
+        System.out.println("check"+u.myCards);
+        Integer U_total = u.open(U_Hand);
+        System.out.println("check"+u.myCards);
 
-        ArrayList<Integer> U_Hand = u.finishHand();
-        Integer U_total = u.open();
-        String result = u.Victory_or_Defeat();
+        //勝敗
+        String result = u.Victory_or_Defeat(U_total, D_total);  //ディーラーとユーザーの勝敗の情報がある
         
         
         PrintWriter out = response.getWriter();
+
         try {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -70,12 +98,13 @@ public class blackjackservlet extends HttpServlet {
             out.println("<head>");
             out.println("<title>Servlet blackjackservlet</title>");            
             out.println("</head>");
-            out.println("<h1>トランプ："+cards+"</h1>");
+//            out.println("<h1>トランプ："+cards+"</h1>");
             out.println("<h1>ディーラーの最初の手札"+D_firstcards+"</h1>");
-            out.println("<h1>ディーラーの追加したカード："+D_hitcard+"</h1>");
-            out.println("<h1>ディーラーのカード："+D_setcard+"</h1>");
             out.println("<h1>ユーザーの最初の手札"+U_firstcards+"</h1>");
-//            out.println("<h1>ユーザーのカード："+U_setcard+"</h1>");
+            out.println("<h1>ディーラーに追加されたカード："+D_hitcard+"</h1>");
+            out.println("<h1>ユーザーに追加されたカード："+U_hitcard+"</h1>");
+            out.println("<h1>ディーラーのカード："+D_setcard+"</h1>");
+            out.println("<h1>ユーザーのカード："+U_setcard+"</h1>");
             out.println("<h1>ディーラー<br>"+"手札："+D_Hand+"<br>合計："+D_total+"点</h1>");
             out.println("<h1>あなた<br>"+"手札："+U_Hand+"<br>合計："+U_total+"点</h1>");
             out.println("<h1>"+result+"</h1>");
