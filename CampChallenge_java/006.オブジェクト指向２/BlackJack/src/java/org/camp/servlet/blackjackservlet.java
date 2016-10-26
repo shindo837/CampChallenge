@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.camp.Human;
+package org.camp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.annotation.WebServlet;
 import java.util.ArrayList;
 
-import org.camp.Human.Human;    //Humanクラスをimport
+import org.camp.servlet.Human;    //Humanクラスをimport
+import org.camp.servlet.User;     //Userクラスをimport
+import org.camp.servlet.Dealer;   //Dealerクラスをimport
 
 /**
  *
@@ -50,43 +52,40 @@ public class blackjackservlet extends HttpServlet {
         d.setCard(D_firstcards);
         System.out.println("check"+d.myCards);
         ArrayList<Integer> D_setcard = d.setCard(D_hitcard);    //3枚のカード情報がある
-        
-        while(d.checkSum(D_setcard) == true){
+        while(d.checkSum(D_setcard) == true){       //d.checkSum()がtrueの間
             D_hitcard = d.hit();
             D_setcard = d.setCard(D_hitcard);
             System.out.println("check"+D_hitcard);
         }
-        
         d.checkSum(D_setcard);
         System.out.println("check"+d.myCards);
         ArrayList<Integer> D_Hand = d.finishHand(D_setcard, D_hitcard);
         System.out.println("check"+d.myCards);
         Integer D_total = d.open(D_Hand);
-        System.out.println("check"+d.myCards);
+        System.out.println("check"+D_total);
         
         //ユーザー
-        ArrayList<Integer> U_firstcards = u.deal();
-        ArrayList<Integer> U_hitcard = u.hit();
+        ArrayList<Integer> U_firstcards = d.deal();
+        ArrayList<Integer> U_hitcard = d.hit();
         System.out.println("check"+U_hitcard);
         u.setCard(U_firstcards);
         System.out.println("check"+u.myCards);
         ArrayList<Integer> U_setcard = u.setCard(U_hitcard);     //3枚のカード情報がある
-        
-        while(u.checkSum(U_setcard) == true){
-            U_hitcard = u.hit();
+        while(u.checkSum(U_setcard) == true){       //u.checkSum()がtrueになるまで
+            U_hitcard = d.hit();
             U_setcard = u.setCard(U_hitcard);
             System.out.println("check"+U_hitcard);
         }
-        
         u.checkSum(U_setcard);
         System.out.println("check"+u.myCards);
         ArrayList<Integer> U_Hand = u.finishHand(U_setcard, U_hitcard);
+        System.out.println("check"+U_Hand);
         System.out.println("check"+u.myCards);
         Integer U_total = u.open(U_Hand);
-        System.out.println("check"+u.myCards);
+        System.out.println("check"+U_total);
 
         //勝敗
-        String result = u.Victory_or_Defeat(U_total, D_total);  //ディーラーとユーザーの勝敗の情報がある
+        String result = d.Victory_or_Defeat(U_total, D_total);  //ディーラーとユーザーの勝敗の情報がある
         
         
         PrintWriter out = response.getWriter();
@@ -99,12 +98,12 @@ public class blackjackservlet extends HttpServlet {
             out.println("<title>Servlet blackjackservlet</title>");            
             out.println("</head>");
 //            out.println("<h1>トランプ："+cards+"</h1>");
-            out.println("<h1>ディーラーの最初の手札"+D_firstcards+"</h1>");
-            out.println("<h1>ユーザーの最初の手札"+U_firstcards+"</h1>");
-            out.println("<h1>ディーラーに追加されたカード："+D_hitcard+"</h1>");
-            out.println("<h1>ユーザーに追加されたカード："+U_hitcard+"</h1>");
-            out.println("<h1>ディーラーのカード："+D_setcard+"</h1>");
-            out.println("<h1>ユーザーのカード："+U_setcard+"</h1>");
+//            out.println("<h1>ディーラーの最初の手札"+D_firstcards+"</h1>");
+//            out.println("<h1>ユーザーの最初の手札"+U_firstcards+"</h1>");
+//            out.println("<h1>ディーラーに追加されたカード："+D_hitcard+"</h1>");
+//            out.println("<h1>ユーザーに追加されたカード："+U_hitcard+"</h1>");
+//            out.println("<h1>ディーラーのカード："+D_setcard+"</h1>");
+//            out.println("<h1>ユーザーのカード："+U_setcard+"</h1>");
             out.println("<h1>ディーラー<br>"+"手札："+D_Hand+"<br>合計："+D_total+"点</h1>");
             out.println("<h1>あなた<br>"+"手札："+U_Hand+"<br>合計："+U_total+"点</h1>");
             out.println("<h1>"+result+"</h1>");
