@@ -8,6 +8,7 @@
  FileWriter fw = new FileWriter(txt);
 
  fw.write("進藤友弥です\r\n");
+ fw.write("よろしくお願いします。\r\n");
 
  fw.close();
 
