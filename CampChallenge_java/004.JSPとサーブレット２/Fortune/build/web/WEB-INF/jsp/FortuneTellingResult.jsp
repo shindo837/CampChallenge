@@ -13,7 +13,7 @@
                 ResultData data = (ResultData)request.getAttribute("DATA");
         %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>占い</title>
     </head>
     <body>
         <%
