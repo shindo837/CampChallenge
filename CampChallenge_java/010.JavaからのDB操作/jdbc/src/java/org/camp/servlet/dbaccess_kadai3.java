@@ -40,7 +40,7 @@ public class dbaccess_kadai3 extends HttpServlet {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();   //③
             db_con = DriverManager.getConnection("jdbc:mysql://localhost:3306/challenge_db", "shindo", "password");     //④
-            // ageが30のデータを取得
+            // 全てのデータを取得
             db_st = db_con.prepareStatement("select * from profiles");    //引数として実行したいSQL文を渡す
             
             db_data = db_st.executeQuery();     //実地すると結果が返却される

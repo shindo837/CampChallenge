@@ -54,7 +54,7 @@ public class dbaccess_kadai2 extends HttpServlet {
             
             db_stw.close();
             
-            // profilesIDが30のデータを取得
+            // profilesIDが3のデータを取得
             db_st = db_con.prepareStatement("select * from profiles where profilesID = ?");    //引数として実行したいSQL文を渡す
             db_st.setInt(1, 3);    //「?」への設定
             
