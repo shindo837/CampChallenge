@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>データベース検索</title>
     </head>
     <body>
         <form action="./dbaccess_kadai8_2.jsp" method="post">
