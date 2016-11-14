@@ -8,8 +8,7 @@
     request.setCharacterEncoding("UTF-8");
     //データの受け取り
     String name = request.getParameter("名前");
-    String male = request.getParameter("男");
-    String female = request.getParameter("女");
+    String type = request.getParameter("Type");
     String hobby = request.getParameter("趣味");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -22,11 +21,7 @@
     <body>
         <%
         out.println("名前：" + name + "<br>");
-        if(male != null){
-            out.println("性別："+male+"<br>");
-        }else if(female != null){
-            out.println("性別："+female+"<br>");
-        }
+        out.println("性別："+ type +"<br>");
         out.println("趣味：" + hobby);
         %>
     </body>
