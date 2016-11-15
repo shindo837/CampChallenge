@@ -14,7 +14,7 @@
     <body>
         <form action="./DataControl_kadai2.jsp" method="post">
             名前:<input type="text" name="名前">
-            性別:男<input type="radio" name="Type" value="男">女<input type="radio" name="Type" value="女"><br>
+            性別:男<input type="radio" name="性別" value="男">女<input type="radio" name="性別" value="女"><br>
             趣味:<textarea name="趣味"></textarea><br>
             <input type="submit" value="送信">
         </form>

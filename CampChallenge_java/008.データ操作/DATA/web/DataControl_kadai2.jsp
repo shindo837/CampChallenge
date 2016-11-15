@@ -8,7 +8,7 @@
     request.setCharacterEncoding("UTF-8");
     //データの受け取り
     String name = request.getParameter("名前");
-    String type = request.getParameter("Type");
+    String type = request.getParameter("性別");
     String hobby = request.getParameter("趣味");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
