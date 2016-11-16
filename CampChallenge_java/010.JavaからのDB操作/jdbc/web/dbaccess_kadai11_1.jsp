@@ -10,17 +10,38 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>データの上書き</title>
     </head>
     <body>
         <form action="./dbaccess_kadai11_2" method="post">
-            ○上書きするID：<input type="number" name="txtID"><br>
-            ○内容<br>
-            ・名前:<input type="text" name="txtName"><br>
-            ・年齢:<input type="number" name="txtAge">歳<br>
-            ・生年月日:<input type="number" name="txtYear">年<input type="number" name="txtMonth">月<input type="number" name="txtDay">日<br>
-            ・電話番号:<input type="number" name="txtNum1"> - <input type="number" name="txtNum2"> - <input type="number" name="txtNum3"><br>
-            <input type="submit" value="更新"><br>
+            <table>
+                <tr>
+                    <td>○上書きするデータのID：</td>
+                    <td><input type="number" name="txtID"></td>
+                </tr>
+                <tr>
+                    <td>○内容</td>
+                </tr>
+                <tr>
+                    <td>・名前:</td>
+                    <td><input type="text" name="txtName"></td>
+                </tr>
+                <tr>
+                    <td>・年齢:</td>
+                    <td><input type="number" name="txtAge">歳</td>
+                </tr>
+                <tr>    
+                    <td>・生年月日:</td>
+                    <td><input type="number" name="txtYear">年<input type="number" name="txtMonth">月<input type="number" name="txtDay">日</td>
+                </tr>
+                <tr>
+                    <td>・電話番号:</td>
+                    <td><input type="number" name="txtNum1"> - <input type="number" name="txtNum2"> - <input type="number" name="txtNum3"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="更新"><td>
+                </tr>
+            </table>
         </form>
         <%
             Connection db_con = null;
@@ -32,7 +53,7 @@
                 db_con = DriverManager.getConnection("jdbc:mysql://localhost:3306/challenge_db", "shindo", "password");
                 db_st = db_con.prepareStatement("select * from profiles");
                 
-                out.println("○現在登録されているデータ<br>");
+                out.println("<br>○現在登録されているデータ<br>");
                 
                 db_data = db_st.executeQuery();
                 while(db_data.next()){
@@ -40,7 +61,7 @@
                     out.println("名前:"+db_data.getString("name")+"<br>");
                     out.println("電話番号:"+db_data.getString("tell")+"<br>");
                     out.println("年齢:"+db_data.getInt("age")+"<br>");
-                    out.println("誕生日:"+db_data.getDate("birthday")+"<br>");
+                    out.println("誕生日:"+db_data.getDate("birthday")+"<br><br>");
                 }
                 
                 db_data.close();
