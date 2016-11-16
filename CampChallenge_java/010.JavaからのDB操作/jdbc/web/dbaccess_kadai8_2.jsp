@@ -28,11 +28,11 @@
                 db_data = db_st.executeQuery();
                 
                 while(db_data.next()){
-                    out.println("ID:"+db_data.getInt("profilesID")+"<br>");
-                    out.println("名前:"+db_data.getString("name")+"<br>");
-                    out.println("電話番号:"+db_data.getString("tell")+"<br>");
-                    out.println("年齢:"+db_data.getInt("age")+"<br>");
-                    out.println("誕生日:"+db_data.getDate("birthday")+"<br>");
+                    out.println("<table><tr><td>ID:</td><td>"+db_data.getInt("profilesID")+"</td></tr>");
+                    out.println("<tr><td>名前:</td><td>"+db_data.getString("name")+"</td></tr>");
+                    out.println("<tr><td>電話番号:</td><td>"+db_data.getString("tell")+"</td></tr>");
+                    out.println("<tr><td>年齢:</td><td>"+db_data.getInt("age")+"</td><tr>");
+                    out.println("<tr><td>誕生日:</td><td>"+db_data.getDate("birthday")+"</td></tr></table>");
                 }
                 db_data.close();
                 db_st.close();
