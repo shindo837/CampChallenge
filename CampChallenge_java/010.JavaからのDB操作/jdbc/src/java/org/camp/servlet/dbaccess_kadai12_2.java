@@ -38,8 +38,11 @@ public class dbaccess_kadai12_2 extends HttpServlet {
         
         String name = request.getParameter("txtName");
         String birth  = request.getParameter("txtBirth");
-        int age = Integer.parseInt(request.getParameter("txtAge"));
-
+        int age = 0;
+        if(request.getParameter("txtAge").length() != 0){
+            age = Integer.parseInt(request.getParameter("txtAge"));
+        }
+        
         Connection db_con = null;
         PreparedStatement db_st = null;
         ResultSet db_data = null;
@@ -63,12 +66,7 @@ public class dbaccess_kadai12_2 extends HttpServlet {
                 if(i != 0){sql += " and";}
                 sql += " birthday like '%" + birth + "%'";
             }
-            
-            out.println(sql+"<br>");
             db_st = db_con.prepareStatement(sql);
-            
-            
-            
             db_data = db_st.executeQuery();
             
             while(db_data.next()){
