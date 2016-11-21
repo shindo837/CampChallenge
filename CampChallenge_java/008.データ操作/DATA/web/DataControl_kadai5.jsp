@@ -9,6 +9,9 @@
 <%
     HttpSession hs = request.getSession();    //セッションの取得
     String a = (String)hs.getAttribute("性別");
+    if(a == null){
+        a = "";
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -28,12 +31,14 @@
             男<input type="radio" name="txtType" value="男"
                     <%if(a.equals("男")){%>
                         checked="checked"
-                    <%}%>
+                        <%}else if(a.equals("")){%>
+                            checked="checked"
+                        <%}%>
               >
             <%//txtType=女が送信される%>
             <%//36行目はセッションの中の文字列を比較対象の文字列(女)と比較している%>
             女<input type="radio" name="txtType" value="女"
-                    <%if(a.equals("女")){%>
+                    <%if(!(a.equals("")) && a.equals("女")){%>
                         checked="checked"
                     <%}%>
               ><br>
