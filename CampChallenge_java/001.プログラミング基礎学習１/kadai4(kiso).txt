@@ -1,0 +1,10 @@
+<%
+final Integer a = 10; //’è”
+Integer b = 5;        //•Ï”
+
+out.println(a + b); //‘«‚µŽZ //Œ‹‰Ê‚Í15
+out.println(a - b); //ˆø‚«ŽZ //Œ‹‰Ê‚Í5
+out.println(a * b); //Š|‚¯ŽZ //Œ‹‰Ê‚Í50
+out.println(a / b); //Š„‚èŽZ //Œ‹‰Ê‚Í2
+out.println(a % b); //—]‚è   //Œ‹‰Ê‚Í0
+%>

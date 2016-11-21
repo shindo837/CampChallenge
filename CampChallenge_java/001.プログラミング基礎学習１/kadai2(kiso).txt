@@ -1,0 +1,7 @@
+<%
+final String a = "groove"; //’è”
+final String b = "-"; //’è”
+final String c = "gear"; //’è”
+
+out.println(a+b+c);
+%>
