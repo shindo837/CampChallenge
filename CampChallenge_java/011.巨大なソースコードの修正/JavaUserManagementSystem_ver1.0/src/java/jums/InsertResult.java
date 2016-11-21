@@ -33,6 +33,12 @@ public class InsertResult extends HttpServlet {
         HttpSession session = request.getSession();
         
         try{
+            //直リンク防止用の処理
+            String accesschk = request.getParameter("ac");
+            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
+                throw new Exception("不正なアクセスです");
+            }
+            
             //ユーザー情報に対応したJavaBeansオブジェクトに格納していく
             UserDataDTO userdata = new UserDataDTO();
             userdata.setName((String)session.getAttribute("name"));
