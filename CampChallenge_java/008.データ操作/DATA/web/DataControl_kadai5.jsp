@@ -28,20 +28,10 @@
             性別：
             <%//txtType=男が送信される%>
             <%//27行目はセッションの中の文字列を比較対象の文字列(男)と比較している%>
-            男<input type="radio" name="txtType" value="男"
-                    <%if(a.equals("男")){%>
-                        checked="checked"
-                        <%}else if(a.equals("")){%>
-                            checked="checked"
-                        <%}%>
-              >
+            男<input type="radio" name="txtType" value="男" <%if(a.equals("男")){%> checked="checked" <%}else if(a.equals("")){%> checked="checked" <%}%> >
             <%//txtType=女が送信される%>
             <%//36行目はセッションの中の文字列を比較対象の文字列(女)と比較している%>
-            女<input type="radio" name="txtType" value="女"
-                    <%if(!(a.equals("")) && a.equals("女")){%>
-                        checked="checked"
-                    <%}%>
-              ><br>
+            女<input type="radio" name="txtType" value="女" <%if(!(a.equals("")) && a.equals("女")){%> checked="checked" <%}%> ><br>
             
             <%//getAttributeメソッドでセッションから情報を読み出している↓%>
             趣味：<textarea name="txtHobby"><%= hs.getAttribute("趣味")%></textarea><br>
