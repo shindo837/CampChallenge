@@ -50,7 +50,7 @@ public class FortuneTelling extends HttpServlet {
         data.setLuck(luckList[index]);
         request.setAttribute("DATA", data);
         
-        RequestDispatcher rd = request.getRequestDispatcher(result);
+        RequestDispatcher rd = request.getRequestDispatcher(result/*"/WEB-INF/jsp/FortuneTellingResult.jsp"*/);
         rd.forward(request, response);
     }
 
