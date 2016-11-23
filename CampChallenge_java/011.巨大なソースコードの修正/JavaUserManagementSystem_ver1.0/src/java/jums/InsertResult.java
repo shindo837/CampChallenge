@@ -29,24 +29,31 @@ public class InsertResult extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        //セッションスタート
-        HttpSession session = request.getSession();
-        
+            //セッションスタート
+            HttpSession session = request.getSession();
+            
         try{
             //直リンク防止用の処理
+            request.setCharacterEncoding("UTF-8");
             String accesschk = request.getParameter("ac");
             if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
                 throw new Exception("不正なアクセスです");
             }
             
+            
             //ユーザー情報に対応したJavaBeansオブジェクトに格納していく
+            //課題6.入力された生年月日の情報がDBに正しく格納されていない。これを修正しなさい
             UserDataDTO userdata = new UserDataDTO();
-            userdata.setName((String)session.getAttribute("name"));
+            UserDateBeans udb = (UserDateBeans)session.getAttribute("udb");
+            userdata.setName(udb.getName());
             Calendar birthday = Calendar.getInstance();
+            birthday.set(Calendar.YEAR,(udb.getYear()));
+            birthday.set(Calendar.MONTH,(udb.getMonth()-1));
+            birthday.set(Calendar.DAY_OF_MONTH,(udb.getDay()));
             userdata.setBirthday(birthday.getTime());
-            userdata.setType(Integer.parseInt((String)session.getAttribute("type")));
-            userdata.setTell((String)session.getAttribute("tell"));
-            userdata.setComment((String)session.getAttribute("comment"));
+            userdata.setType(udb.getType());
+            userdata.setTell(udb.getTell());
+            userdata.setComment(udb.getComment());
             
             //DBへデータの挿入
             UserDataDAO .getInstance().insert(userdata);

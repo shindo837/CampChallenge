@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="jums.JumsHelper"%>  <!-- JumsHelperクラスをimportしました -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,6 +8,7 @@
     </head>
     <body>
         エラーが発生しました。以下の項目を確認してください。<br>
-        <%=request.getAttribute("error")%>
+        <%=request.getAttribute("error")%><br>
+        <%=JumsHelper.getInstance().home()%>    <!-- トップページへのリンクを標示 -->
     </body>
 </html>
