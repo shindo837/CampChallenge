@@ -1,7 +1,7 @@
 package jums;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.*;
 
 /**
  * ユーザー情報を持ちまわるJavaBeans
@@ -17,6 +17,9 @@ public class UserDataDTO {
     private int type;
     private String comment;
     private Timestamp newDate;
+    private int year;
+    private int month;
+    private int day;
     
     
     public int getUserID() {
@@ -67,5 +70,21 @@ public class UserDataDTO {
     public void setNewDate(Timestamp newDate) {
         this.newDate = newDate;
     }
-
+    //Calendarクラスを利用して年月日を取得
+    public void setCalendar(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(this.birthday);
+        this.year = cal.get(Calendar.YEAR);
+        this.month = cal.get(Calendar.MONTH)+1;
+        this.day = cal.get(Calendar.DAY_OF_MONTH);
+    }
+    public int getYear(){
+        return this.year;
+    }
+    public int getMonth(){
+        return this.month;
+    }
+    public int getDay(){
+        return this.day;
+    }
 }

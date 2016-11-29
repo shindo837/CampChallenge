@@ -1,6 +1,8 @@
-<%@page import="jums.JumsHelper"
+<%@page import="javax.servlet.http.HttpSession"
+        import="jums.JumsHelper"
         import="jums.UserDataDTO" %>
 <%
+    HttpSession hs = request.getSession();
     JumsHelper jh = JumsHelper.getInstance();
     UserDataDTO udd = (UserDataDTO)request.getAttribute("resultData");
 %>
@@ -21,12 +23,16 @@
                 <th>登録日時</th>
             </tr>
             <tr>
-                <td><a href="ResultDetail?id=<%= udd.getUserID()%>"><%= udd.getName()%></a></td>
+                <td><a href="ResultDetail?id=<%= udd.getUserID()%>&ac=<%= hs.getAttribute("ac")%>"><%= udd.getName()%></a></td>
                 <td><%= udd.getBirthday()%></td>
                 <td><%= udd.getType()%></td>
                 <td><%= udd.getNewDate()%></td>
             </tr>
         </table>
+        <form action="Search" method="POST">
+            <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">
+            <input type="submit" name="back" value="検索画面に戻る">
+        </form>
     </body>
     <%=jh.home()%>
 </html>

@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -26,7 +27,12 @@ public class SearchResult extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
+            HttpSession session = request.getSession();
             request.setCharacterEncoding("UTF-8");//リクエストパラメータの文字コードをUTF-8に変更
+            String accesschk = request.getParameter("ac");
+            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){   //acというPOSTが送られていないまたは、セッションの中のacとaccesschkが違う
+                throw new Exception("不正なアクセスです");
+            }
         
             //フォームからの入力を取得して、JavaBeansに格納
             UserDataBeans udb = new UserDataBeans();
@@ -34,13 +40,19 @@ public class SearchResult extends HttpServlet {
             udb.setYear(request.getParameter("year"));
             udb.setType(request.getParameter("type"));
 
+            //UserDetaBeansをセッションに格納
+            session.setAttribute("name", udb.getName());
+            session.setAttribute("year", udb.getYear());
+            session.setAttribute("type", udb.getType());
+            
             //DTOオブジェクトにマッピング。DB専用のパラメータに変換
             UserDataDTO searchData = new UserDataDTO();
             udb.UD2DTOMapping(searchData);
 
-            UserDataDTO resultData = UserDataDAO .getInstance().search(searchData);
+            UserDataDTO resultData = UserDataDAO.getInstance().search(searchData);
             request.setAttribute("resultData", resultData);
             
+            session.setAttribute("ac", (int) (Math.random() * 1000));   //1～999の乱数を生成
             request.getRequestDispatcher("/searchresult.jsp").forward(request, response);  
         }catch(Exception e){
             //何らかの理由で失敗したらエラーページにエラー文を渡して表示。想定は不正なアクセスとDBエラー

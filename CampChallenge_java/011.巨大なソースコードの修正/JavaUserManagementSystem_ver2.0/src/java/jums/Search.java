@@ -25,6 +25,8 @@ public class Search extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.setAttribute("ac", (int) (Math.random() * 1000));   //1～999の乱数を生成
         request.getRequestDispatcher("/search.jsp").forward(request, response);  
     }
 
