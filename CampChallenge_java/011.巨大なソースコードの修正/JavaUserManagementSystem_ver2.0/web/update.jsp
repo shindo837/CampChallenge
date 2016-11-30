@@ -14,7 +14,7 @@
         <title>JUMS変更画面</title>
     </head>
     <body>
-    <form action="UpdateResult" method="POST">
+    <form action="UpdateConfirm" method="POST">
         名前:
         <input type="text" name="name" value="<%if(udd!=null){ out.println(udd.getName()); }%>">
         <br><br>

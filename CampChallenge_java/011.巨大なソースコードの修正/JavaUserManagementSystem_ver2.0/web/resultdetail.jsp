@@ -34,7 +34,7 @@
         <input type="hidden" name="name"  value="<%= hs.getAttribute("name")%>">
         <input type="hidden" name="year"  value="<%= hs.getAttribute("year")%>">
         <input type="hidden" name="type"  value="<%= hs.getAttribute("type")%>">
-        <input type="submit" name="back" value="検索結果画面に戻る"style="width:150px">
+        <input type="submit" name="back" value="検索結果画面に戻る" style="width:150px">
         </form>
     </body>
     <%=jh.home()%>

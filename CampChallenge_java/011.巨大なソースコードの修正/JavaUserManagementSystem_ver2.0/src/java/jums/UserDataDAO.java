@@ -63,7 +63,7 @@ public class UserDataDAO {
         try{
             con = DBManager.getConnection();
             
-            //
+            
             String sql = "SELECT * FROM user_t";
             boolean flag = false;
             if (!ud.getName().equals("")) {
@@ -99,13 +99,20 @@ public class UserDataDAO {
             resultUd.setTell(rs.getString(4));
             resultUd.setType(rs.getInt(5));
             resultUd.setComment(rs.getString(6));
-            resultUd.setNewDate(rs.getTimestamp(7));
-            
+            resultUd.setNewDate(rs.getTimestamp(7));            
             System.out.println("search completed");
 
             return resultUd;
         }catch(SQLException e){
-            System.out.println(e.getMessage());
+            if(ud.getName().equals("")){
+               System.out.println(e.getMessage()+"名前が未入力");
+            }
+            if(ud.getBirthday()==null){
+               System.out.println(e.getMessage()+"生年月日が未入力");
+            }
+            if(ud.getType()==0){
+               System.out.println(e.getMessage()+"種別が未入力");
+            }
             throw new SQLException(e);
         }finally{
             if(con != null){
@@ -146,6 +153,70 @@ public class UserDataDAO {
             System.out.println("searchByID completed");
 
             return resultUd;
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new SQLException(e);
+        }finally{
+            if(con != null){
+                con.close();
+            }
+        }
+
+    }
+
+    /**
+     * データの更新処理を行う。
+     * @param ud 対応したデータを保持しているJavaBeans
+     * @throws SQLException 呼び出し元にcatchさせるためにスロー 
+     */    
+    public void update(UserDataDTO ud, int id) throws SQLException{
+        Connection con = null;
+        PreparedStatement st = null;
+        try{
+            con = DBManager.getConnection();
+            
+            String sql = "UPDATE user_t SET name = ?, birthday = ?, tell = ?, type = ?, comment = ?, newDate = ? WHERE userID = ?";
+            
+            st =  con.prepareStatement(sql);
+            st.setString(1, ud.getName());
+            st.setDate(2, new java.sql.Date(ud.getBirthday().getTime()));//指定のタイムスタンプ値からSQL格納用のDATE型に変更
+            st.setString(3, ud.getTell());
+            st.setInt(4, ud.getType());
+            st.setString(5, ud.getComment());
+            st.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+            st.setInt(7, id);
+            st.executeUpdate();
+            
+            System.out.println("update completed");
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            throw new SQLException(e);
+        }finally{
+            if(con != null){
+                con.close();
+            }
+        }
+
+    }
+
+    /**
+     * データの削除処理を行う。
+     * @param id 指定されているユーザーID
+     * @throws SQLException 呼び出し元にcatchさせるためにスロー 
+     */    
+    public void delete(int id) throws SQLException{
+        Connection con = null;
+        PreparedStatement st = null;
+        try{
+            con = DBManager.getConnection();
+            
+            String sql = "DELETE FROM user_t WHERE userID = ?";
+            
+            st =  con.prepareStatement(sql);
+            st.setInt(1, id);
+            st.executeUpdate();
+            
+            System.out.println("delete completed");
         }catch(SQLException e){
             System.out.println(e.getMessage());
             throw new SQLException(e);

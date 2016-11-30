@@ -27,7 +27,7 @@ public class Search extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.setAttribute("ac", (int) (Math.random() * 1000));   //1～999の乱数を生成
-        request.getRequestDispatcher("/search.jsp").forward(request, response);  
+        request.getRequestDispatcher("/search.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

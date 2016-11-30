@@ -1,8 +1,12 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package jums;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +15,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author hayashi-s
+ * @author tomoya
  */
-public class SearchResult extends HttpServlet {
+public class UpdateConfirm extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -26,45 +30,43 @@ public class SearchResult extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        //セッションスタート
+        HttpSession session = request.getSession();
+        
         try{
-            HttpSession session = request.getSession();
             request.setCharacterEncoding("UTF-8");//リクエストパラメータの文字コードをUTF-8に変更
+            
+            //アクセスルートチェック
             String accesschk = request.getParameter("ac");
-            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){   //acというPOSTが送られていないまたは、セッションの中のacとaccesschkが違う
+            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
                 throw new Exception("不正なアクセスです");
             }
-        
+            
             //フォームからの入力を取得して、JavaBeansに格納
             UserDataBeans udb = new UserDataBeans();
             udb.setName(request.getParameter("name"));
             udb.setYear(request.getParameter("year"));
+            udb.setMonth(request.getParameter("month"));
+            udb.setDay(request.getParameter("day"));
             udb.setType(request.getParameter("type"));
+            udb.setTell(request.getParameter("tell"));
+            udb.setComment(request.getParameter("comment"));
 
-            //UserDetaBeansをセッションに格納
-            session.setAttribute("name", udb.getName());
-            session.setAttribute("year", udb.getYear());
-            session.setAttribute("type", udb.getType());
+            //ユーザー情報群をセッションに格納
+            session.setAttribute("udb", udb);
+            System.out.println("Session updated!!");
             
-            //DTOオブジェクトにマッピング。DB専用のパラメータに変換
-            UserDataDTO searchData = new UserDataDTO();
-            udb.UD2DTOMapping(searchData);
-
-            //検索を開始しリクエストスコープに格納
-            UserDataDTO resultData = UserDataDAO.getInstance().search(searchData);
-            request.setAttribute("resultData", resultData);
-            
-            session.setAttribute("ac", (int) (Math.random() * 1000));   //1～999の乱数を生成
-            request.getRequestDispatcher("/searchresult.jsp").forward(request, response);  
+            request.getRequestDispatcher("/updateconfirm.jsp").forward(request, response);
         }catch(Exception e){
-            //何らかの理由で失敗したらエラーページにエラー文を渡して表示。想定は不正なアクセスとDBエラー
             request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
-        
-        
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
