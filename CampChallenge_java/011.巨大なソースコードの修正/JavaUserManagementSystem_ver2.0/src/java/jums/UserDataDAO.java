@@ -63,34 +63,102 @@ public class UserDataDAO {
         try{
             con = DBManager.getConnection();
             
-            
             String sql = "SELECT * FROM user_t";
-            boolean flag = false;
-            if (!ud.getName().equals("")) {
-                sql += " WHERE name like ?";
-                flag = true;
-            }
-            if (ud.getBirthday()!=null) {
-                if(!flag){
-                    sql += " WHERE birthday like ?";
-                    flag = true;
-                }else{
-                    sql += " AND birthday like ?";
-                }
-            }
-            if (ud.getType()!=0) {
-                if(!flag){
-                    sql += " WHERE type like ?";
-                }else{
-                    sql += " AND type like ?";
-                }
-            }
-            st =  con.prepareStatement(sql);
-            st.setString(1, "%"+ud.getName()+"%");
-            st.setString(2, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
-            st.setInt(3, ud.getType());
             
+//            boolean flag = false;
+            int a = 0;  //初期値および、すべて入力されていない状態
+            
+                if (!ud.getName().equals("")) {   //名前が入力された状態
+                    sql += " WHERE name like ?";
+//                    flag = true;
+                    a = 1;
+                }
+                else if(ud.getName().equals("")){   //名前が未入力
+                    a = 2;
+                }
+            
+                if (ud.getBirthday()!=null) {   //生年月日が入力された状態
+                    if(a == 2){   //名前が未入力 flag = true
+                        sql += " WHERE birthday like ?";
+//                        flag = true;
+                        a = 3;
+                    }else if(a == 1){   //名前が入力された状態 flag = true
+                        sql += " AND birthday like ?";
+                        a = 4;
+                    }
+                }
+                else if(ud.getBirthday()==null) {    //生年月日が未入力
+                    if(a == 2){   //名前が未入力 flag = false
+                        a = 5;
+                    }else if(a == 1){   //名前が入力された状態
+                        a = 6;
+                    }
+                }
+            
+                if (ud.getType()!=0) {    //種別が入力された状態
+                    switch (a) {
+                        case 3:
+                            //名前が未入力、生年月日が入力された状態
+                            sql += " AND type like ?";
+                            a = 7;
+                            break;
+                        case 4:
+                            //生年月日と名前が入力された状態
+                            sql += " AND type like ?";
+                            a = 8;
+                            break;
+                        case 5:
+                            //生年月日と名前が未入力
+                            sql += " WHERE type like ?";
+                            a = 9;
+                            break;
+                        case 6:
+                            //生年月日が未入力、名前が入力された状態
+                            sql += " AND type like ?";
+                            a = 10;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            
+            st =  con.prepareStatement(sql);
+            if(ud!=null){
+            switch (a) {
+                case 0:
+                    break;
+                case 6:
+                    st.setString(1, "%"+ud.getName()+"%");
+                    break;
+                case 3:
+                    st.setString(1, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
+                    break;
+                case 4:
+                    st.setString(1, "%"+ud.getName()+"%");
+                    st.setString(2, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
+                    break;
+                case 7:
+                    st.setString(1, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
+                    st.setInt(2, ud.getType());
+                    break;
+                case 8:
+                    st.setString(1, "%"+ud.getName()+"%");
+                    st.setString(2, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
+                    st.setInt(3, ud.getType());
+                    break;
+                case 9:
+                    st.setInt(1, ud.getType());
+                    break;
+                case 10:
+                    st.setString(1, "%"+ud.getName()+"%");
+                    st.setInt(2, ud.getType());
+                    break;
+                default:
+                    break;
+            }
+            }
             ResultSet rs = st.executeQuery();
+
             rs.next();
             UserDataDTO resultUd = new UserDataDTO();
             resultUd.setUserID(rs.getInt(1));
@@ -105,13 +173,13 @@ public class UserDataDAO {
             return resultUd;
         }catch(SQLException e){
             if(ud.getName().equals("")){
-               System.out.println(e.getMessage()+"名前が未入力");
+               System.out.println(e.getMessage());
             }
             if(ud.getBirthday()==null){
-               System.out.println(e.getMessage()+"生年月日が未入力");
+               System.out.println(e.getMessage());
             }
             if(ud.getType()==0){
-               System.out.println(e.getMessage()+"種別が未入力");
+               System.out.println(e.getMessage());
             }
             throw new SQLException(e);
         }finally{
