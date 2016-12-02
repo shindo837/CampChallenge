@@ -5,11 +5,13 @@
  */
 package jums;
 
+import java.io.Serializable;
+
 /**
  *課題３.フォームから受け取ったデータ自体を格納できるJavaBeans
  * @author tomoya
  */
-public class UserDateBeans{
+public class UserDateBeans implements Serializable{ //型を分けることは大事
     private String name;
     private int year;
     private int month;

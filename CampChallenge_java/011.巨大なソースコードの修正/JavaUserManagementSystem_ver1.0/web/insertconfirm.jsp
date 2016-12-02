@@ -33,10 +33,10 @@
         </form>
     <% }else{
           if(udb.getName().equals("")){%><h1>名前</h1><%}
-          if(udb.getYear()!=0){%><h1>年</h1><%}
-          if(udb.getMonth()!=0){%><h1>月</h1><%}
-          if(udb.getDay()!=0){%><h1>日</h1><%}
-          if(udb.getType()!=0){%><h1>種別</h1><%}
+          if(udb.getYear()==0){%><h1>年</h1><%}
+          if(udb.getMonth()==0){%><h1>月</h1><%}
+          if(udb.getDay()==0){%><h1>日</h1><%}
+          if(udb.getType()==0){%><h1>種別</h1><%}
           if(udb.getTell().equals("")){%><h1>電話番号</h1><%}
           if(udb.getComment().equals("")){%><h1>自己紹介文</h1><%}%>
         <h1>の入力が不完全です</h1>

@@ -30,7 +30,7 @@ public class InsertConfirm extends HttpServlet {
             HttpSession session = request.getSession();
             request.setCharacterEncoding("UTF-8");//セッションに格納する文字コードをUTF-8に変更
             String accesschk = request.getParameter("ac");
-            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
+            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){   //acというPOSTが送られていないまたは、セッションの中のacとaccesschkが違う
                 throw new Exception("不正なアクセスです");
             }
             
@@ -43,7 +43,7 @@ public class InsertConfirm extends HttpServlet {
             String tell = request.getParameter("tell");
             String comment = request.getParameter("comment");
 
-/*
+/*          //元のコード
             //セッションに格納
             session.setAttribute("name", name);
             session.setAttribute("year", year);
@@ -61,10 +61,13 @@ public class InsertConfirm extends HttpServlet {
             udb.setYear(Integer.parseInt(year));
             udb.setMonth(Integer.parseInt(month));
             udb.setDay(Integer.parseInt(day));
+            if(type==null){
+                type="0";
+            }
             udb.setType(Integer.parseInt(type));
             udb.setTell(tell);
             udb.setComment(comment);
-            session.setAttribute("udb", udb);
+            session.setAttribute("udb", udb);   //UserDetaBeansをセッションに格納
             
             request.getRequestDispatcher("/insertconfirm.jsp").forward(request, response);
         }catch(Exception e){

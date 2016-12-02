@@ -2,7 +2,7 @@
 <%@page import="jums.JumsHelper" %>
 <%@page import="jums.UserDateBeans"%>   <!-- UserDateBeansクラスをimportしました --
 <%
-    HttpSession hs = request.getSession();
+    HttpSession hs = request.getSession();  //セッションの呼び出し
     UserDateBeans udb = (UserDateBeans)hs.getAttribute("udb");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -26,26 +26,26 @@
 
         生年月日:
         <select name="year">
-            <option value="">----</option>
+            <option value="0">----</option>
             <%
             for(int i=1950; i<=2010; i++){ %>
             <option value="<%=i%>" <%if(udb!=null&&i==udb.getYear()){%> selected="selected" <%}%>> <%=i%> </option>
             <%}%>
         </select>年
         <select name="month">
-            <option value="">--</option>
+            <option value="0">--</option>
             <%
             for(int i = 1; i<=12; i++){ %>
             <option value="<%=i%>" <%if(udb!=null&&i==udb.getMonth()){%> selected="selected" <%}%>> <%=i%></option>
             <% } %>
         </select>月
         <select name="day">
-            <option value="">--</option>
+            <option value="0">--</option>
             <%
             for(int i = 1; i<=31; i++){ %>
             <option value="<%=i%>" <%if(udb!=null&&i==udb.getDay()){%> selected="selected" <%}%>> <%=i%></option>
             <% } %>
-        </select>
+        </select>日
         <br><br>
 
         種別:
