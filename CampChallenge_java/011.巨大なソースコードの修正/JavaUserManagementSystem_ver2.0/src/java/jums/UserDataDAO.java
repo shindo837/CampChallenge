@@ -57,7 +57,7 @@ public class UserDataDAO {
      * @throws SQLException 呼び出し元にcatchさせるためにスロー 
      * @return 検索結果
      */
-    public UserDataDTO search(UserDataDTO ud) throws SQLException{
+    public UserDataList search(UserDataDTO ud) throws SQLException{
         Connection con = null;
         PreparedStatement st = null;
         try{
@@ -78,17 +78,17 @@ public class UserDataDAO {
                 }
             
                 if (ud.getBirthday()!=null) {   //生年月日が入力された状態
-                    if(a == 2){   //名前が未入力 flag = true
+                    if(a == 2){   //名前が未入力
                         sql += " WHERE birthday like ?";
 //                        flag = true;
                         a = 3;
-                    }else if(a == 1){   //名前が入力された状態 flag = true
+                    }else if(a == 1){   //名前が入力された状態
                         sql += " AND birthday like ?";
                         a = 4;
                     }
                 }
                 else if(ud.getBirthday()==null) {    //生年月日が未入力
-                    if(a == 2){   //名前が未入力 flag = false
+                    if(a == 2){   //名前が未入力
                         a = 5;
                     }else if(a == 1){   //名前が入力された状態
                         a = 6;
@@ -124,63 +124,57 @@ public class UserDataDAO {
             
             st =  con.prepareStatement(sql);
             if(ud!=null){
-            switch (a) {
-                case 0:
-                    break;
-                case 6:
-                    st.setString(1, "%"+ud.getName()+"%");
-                    break;
-                case 3:
-                    st.setString(1, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
-                    break;
-                case 4:
-                    st.setString(1, "%"+ud.getName()+"%");
-                    st.setString(2, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
-                    break;
-                case 7:
-                    st.setString(1, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
-                    st.setInt(2, ud.getType());
-                    break;
-                case 8:
-                    st.setString(1, "%"+ud.getName()+"%");
-                    st.setString(2, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
-                    st.setInt(3, ud.getType());
-                    break;
-                case 9:
-                    st.setInt(1, ud.getType());
-                    break;
-                case 10:
-                    st.setString(1, "%"+ud.getName()+"%");
-                    st.setInt(2, ud.getType());
-                    break;
-                default:
-                    break;
+                switch (a) {
+                    case 0:
+                        break;
+                    case 3:
+                        st.setString(1, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
+                        break;
+                    case 4:
+                        st.setString(1, "%"+ud.getName()+"%");
+                        st.setString(2, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
+                        break;
+                    case 6:
+                        st.setString(1, "%"+ud.getName()+"%");
+                        break;
+                    case 7:
+                        st.setString(1, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
+                        st.setInt(2, ud.getType());
+                        break;
+                    case 8:
+                        st.setString(1, "%"+ud.getName()+"%");
+                        st.setString(2, "%"+ new SimpleDateFormat("yyyy").format(ud.getBirthday())+"%");
+                        st.setInt(3, ud.getType());
+                        break;
+                    case 9:
+                        st.setInt(1, ud.getType());
+                        break;
+                    case 10:
+                        st.setString(1, "%"+ud.getName()+"%");
+                        st.setInt(2, ud.getType());
+                        break;
+                    default:
+                        break;
+                }
             }
-            }
+            
             ResultSet rs = st.executeQuery();
-
-            rs.next();
-            UserDataDTO resultUd = new UserDataDTO();
-            resultUd.setUserID(rs.getInt(1));
-            resultUd.setName(rs.getString(2));
-            resultUd.setBirthday(rs.getDate(3));
-            resultUd.setTell(rs.getString(4));
-            resultUd.setType(rs.getInt(5));
-            resultUd.setComment(rs.getString(6));
-            resultUd.setNewDate(rs.getTimestamp(7));            
+            UserDataList resultUdl = new UserDataList();
+            
+            while(rs.next()){
+            resultUdl.addUserIDList(rs.getInt(1));
+            resultUdl.addNameList(rs.getString(2));
+            resultUdl.addBirthdayList(rs.getDate(3));
+            resultUdl.addTellList(rs.getString(4));
+            resultUdl.addTypeList(rs.getInt(5));
+            resultUdl.addCommentList(rs.getString(6));
+            resultUdl.addNewDateList(rs.getTimestamp(7));
+            }
+            
             System.out.println("search completed");
-
-            return resultUd;
+            return resultUdl;
         }catch(SQLException e){
-            if(ud.getName().equals("")){
-               System.out.println(e.getMessage());
-            }
-            if(ud.getBirthday()==null){
-               System.out.println(e.getMessage());
-            }
-            if(ud.getType()==0){
-               System.out.println(e.getMessage());
-            }
+            System.out.println(e.getMessage());
             throw new SQLException(e);
         }finally{
             if(con != null){

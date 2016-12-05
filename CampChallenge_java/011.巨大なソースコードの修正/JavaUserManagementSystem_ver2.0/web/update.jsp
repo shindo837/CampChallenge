@@ -51,9 +51,9 @@
         <input type="text" name="tell" value="<%if(udd!=null){ out.println(udd.getTell()); }%>">
         <br><br>
 
-        自己紹介文
+        自己紹介文<!--out.println()では改行される-->
         <br>
-        <textarea name="comment" rows=10 cols=50 style="resize:none" wrap="hard"><%if(udd!=null){ out.println(udd.getComment()); }%></textarea><br><br>
+        <textarea name="comment" rows=10 cols=50 style="resize:none" wrap="hard"><%if(udd!=null){ out.print(udd.getComment()); }%></textarea><br><br>
         
         <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">
         <input type="submit" name="btnSubmit" value="送信">

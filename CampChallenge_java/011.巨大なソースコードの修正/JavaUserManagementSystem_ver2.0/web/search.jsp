@@ -15,7 +15,7 @@
         <title>JUMSユーザー情報検索画面</title>
     </head>
     <body>
-         <form action="SearchResult" method="POST">
+         <form action="SearchResult" method="POST"><!--ユーザーにみせてもいいものはGET(文字数制限あり)で、みせたくないものはPOST-->
         名前:
         <input type="text" name="name" value="<%if(udb!=null){ out.println(udb.getName()); }%>">
         <br><br>

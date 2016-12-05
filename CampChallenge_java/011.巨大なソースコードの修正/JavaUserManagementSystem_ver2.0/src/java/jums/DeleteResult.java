@@ -39,7 +39,7 @@ public class DeleteResult extends HttpServlet {
             String name = (String)session.getAttribute("name");
             int year = (Integer)session.getAttribute("year");
             int type = (Integer)session.getAttribute("type");
-            int id = Integer.parseInt(request.getParameter("id"));
+            int id = Integer.parseInt(request.getParameter("id")); //sessionのを使う
             
             //データの削除を開始
             UserDataDAO.getInstance().delete(id);;          

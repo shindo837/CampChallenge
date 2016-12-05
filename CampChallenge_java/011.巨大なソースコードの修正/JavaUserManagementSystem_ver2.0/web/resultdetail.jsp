@@ -17,7 +17,7 @@
         <h1>詳細情報</h1>
         名前:<%= udd.getName()%><br>
         生年月日:<%= udd.getBirthday()%><br>
-        種別:<%= udd.getType()%><br>
+        種別:<%= jh.exTypenum(udd.getType())%><br>
         電話番号:<%= udd.getTell()%><br>
         自己紹介:<%= udd.getComment()%><br>
         登録日時:<%= udd.getNewDate()%><br>

@@ -50,7 +50,7 @@ public class SearchResult extends HttpServlet {
             udb.UD2DTOMapping(searchData);
 
             //検索を開始しリクエストスコープに格納
-            UserDataDTO resultData = UserDataDAO.getInstance().search(searchData);
+            UserDataList resultData = UserDataDAO.getInstance().search(searchData);
             request.setAttribute("resultData", resultData);
             
             session.setAttribute("ac", (int) (Math.random() * 1000));   //1～999の乱数を生成
